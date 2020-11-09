@@ -1,0 +1,35 @@
+# github.com/Sirupsen/logrus v0.11.6-0.20170504071019-5b60b3d3ee01
+## explicit
+github.com/Sirupsen/logrus
+# github.com/beorn7/perks v0.0.0-20160804104726-4c0e84591b9a
+## explicit
+github.com/beorn7/perks/quantile
+# github.com/golang/protobuf v0.0.0-20170331031902-2bba0603135d
+## explicit
+github.com/golang/protobuf/proto
+# github.com/matttproud/golang_protobuf_extensions v1.0.1
+## explicit
+github.com/matttproud/golang_protobuf_extensions/pbutil
+# github.com/prometheus/client_golang v0.8.1-0.20170425213558-7d9484283ebe
+## explicit
+github.com/prometheus/client_golang/prometheus
+github.com/prometheus/client_golang/prometheus/promhttp
+# github.com/prometheus/client_model v0.0.0-20170216185247-6f3806018612
+## explicit
+github.com/prometheus/client_model/go
+# github.com/prometheus/common v0.0.0-20170418155210-9e0844febd9e
+## explicit
+github.com/prometheus/common/expfmt
+github.com/prometheus/common/internal/bitbucket.org/ww/goautoneg
+github.com/prometheus/common/model
+# github.com/prometheus/procfs v0.0.0-20170519190837-65c1f6f8f0fc
+## explicit
+github.com/prometheus/procfs
+github.com/prometheus/procfs/xfs
+# github.com/stretchr/testify v1.6.1
+## explicit
+# golang.org/x/sync v0.0.0-20201020160332-67f06af15bc9
+## explicit
+# golang.org/x/sys v0.0.0-20170529185110-b90f89a1e7a9
+## explicit
+golang.org/x/sys/unix
