@@ -1,3 +1,4 @@
 # Ignore the main binary.
 anyflow
-.vscode/launch.json
+.vscode/*
+*.log
