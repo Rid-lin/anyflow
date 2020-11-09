@@ -1,3 +1,5 @@
+# github.com/BurntSushi/toml v0.3.1
+github.com/BurntSushi/toml
 # github.com/Sirupsen/logrus v0.11.6-0.20170504071019-5b60b3d3ee01
 ## explicit
 github.com/Sirupsen/logrus
@@ -7,6 +9,11 @@ github.com/beorn7/perks/quantile
 # github.com/golang/protobuf v0.0.0-20170331031902-2bba0603135d
 ## explicit
 github.com/golang/protobuf/proto
+# github.com/ilyakaznacheev/cleanenv v1.2.5
+## explicit
+github.com/ilyakaznacheev/cleanenv
+# github.com/joho/godotenv v1.3.0
+github.com/joho/godotenv
 # github.com/matttproud/golang_protobuf_extensions v1.0.1
 ## explicit
 github.com/matttproud/golang_protobuf_extensions/pbutil
@@ -33,3 +40,9 @@ github.com/prometheus/procfs/xfs
 # golang.org/x/sys v0.0.0-20170529185110-b90f89a1e7a9
 ## explicit
 golang.org/x/sys/unix
+# gopkg.in/yaml.v2 v2.3.0
+## explicit
+gopkg.in/yaml.v2
+# olympos.io/encoding/edn v0.0.0-20201019073823-d3554ca0b0a3
+## explicit
+olympos.io/encoding/edn

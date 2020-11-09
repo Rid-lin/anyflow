@@ -6,6 +6,7 @@ require (
 	github.com/Sirupsen/logrus v0.11.6-0.20170504071019-5b60b3d3ee01
 	github.com/beorn7/perks v0.0.0-20160804104726-4c0e84591b9a // indirect
 	github.com/golang/protobuf v0.0.0-20170331031902-2bba0603135d // indirect
+	github.com/ilyakaznacheev/cleanenv v1.2.5
 	github.com/matttproud/golang_protobuf_extensions v1.0.1 // indirect
 	github.com/prometheus/client_golang v0.8.1-0.20170425213558-7d9484283ebe
 	github.com/prometheus/client_model v0.0.0-20170216185247-6f3806018612 // indirect
@@ -14,4 +15,6 @@ require (
 	github.com/stretchr/testify v1.6.1 // indirect
 	golang.org/x/sync v0.0.0-20201020160332-67f06af15bc9 // indirect
 	golang.org/x/sys v0.0.0-20170529185110-b90f89a1e7a9 // indirect
+	gopkg.in/yaml.v2 v2.3.0 // indirect
+	olympos.io/encoding/edn v0.0.0-20201019073823-d3554ca0b0a3 // indirect
 )
