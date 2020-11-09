@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net"
 	"strconv"
+
+	log "github.com/Sirupsen/logrus"
 )
 
 func (nf *Netflow) GetFlows() ([]Record, error) {
@@ -137,10 +139,8 @@ func Getv9(nf *Netflow, addr *net.UDPAddr, p []byte) (*Netflow, error) {
 	nf.SourceId = uint32(p[16])<<24 + uint32(p[17])<<16 +
 		uint32(p[18])<<8 + uint32(p[19])
 
-	fmt.Println("|Version: ", nf.Version)
-	fmt.Println("|SourceID: ", nf.SourceId)
-	fmt.Println("|Record count: ", nf.Count)
-	fmt.Println("+")
+	log.Infoln("|Version: ", nf.Version, "|SourceID: ", nf.SourceId, "|Record count: ", nf.Count)
+	// fmt.Println("+")
 
 	// loop through FlowSets
 	// payload starts at the beginning of the first FlowSet
@@ -157,7 +157,7 @@ func Getv9(nf *Netflow, addr *net.UDPAddr, p []byte) (*Netflow, error) {
 		switch {
 		// Template FlowSet Id
 		case fs.Id == 0:
-			fmt.Println("processing template FlowSet")
+			log.Infoln("processing template FlowSet")
 			err := GetTemplates(nf, fs, payload[4:], &count, addr)
 			if err != nil {
 				return nf, err
@@ -168,7 +168,7 @@ func Getv9(nf *Netflow, addr *net.UDPAddr, p []byte) (*Netflow, error) {
 			continue
 		// Data FlowSet Id
 		case fs.Id > 255:
-			fmt.Println("processing data FlowSet")
+			log.Infoln("processing data FlowSet")
 			err := Getv9Data(nf, fs, payload[4:], &count, addr)
 			if err != nil {
 				return nf, err
@@ -178,7 +178,7 @@ func Getv9(nf *Netflow, addr *net.UDPAddr, p []byte) (*Netflow, error) {
 			continue
 		// Option FlowSet Id
 		case fs.Id == 1:
-			fmt.Println("processing option template FlowSet")
+			log.Infoln("processing option template FlowSet")
 			// for now add empty Option FlowSet
 			err := GetOptionsTemplates(nf, fs, payload[4:], &count, addr)
 			if err != nil {
@@ -190,7 +190,7 @@ func Getv9(nf *Netflow, addr *net.UDPAddr, p []byte) (*Netflow, error) {
 			continue
 		}
 		// in case the FlowSet Id is unknown for us, add an empty one and skip the packet
-		fmt.Println("processing unknown FlowSet: skipping rest of packet")
+		log.Println("processing unknown FlowSet: skipping rest of packet")
 		nf.FlowSet = append(nf.FlowSet, *fs)
 		return nf, errors.New("FlowSet Id unknown")
 	}
@@ -295,14 +295,15 @@ func Getv9Data(nf *Netflow, fs *FlowSet, payload []byte, count *uint16, addr *ne
 				// increase the read marker
 				rm += f.Length
 			}
-			fmt.Println("add record ", i, " to fs.Data")
+			// fmt.Printf("\r")
+			log.Debugf("add record %v to fs.Data ", i)
 			i++
 			// add record to data in FlowSet
 			fs.Data = append(fs.Data, r)
 			// record counter
 			*count++
 		} else {
-			fmt.Println("Padding FlowSet with: ", length-rm)
+			log.Infof("Padding FlowSet with: %v\n", length-rm)
 			// useless padding bytes
 			fs.Padding = payload[rm:length]
 			return nil
