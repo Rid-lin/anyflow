@@ -81,9 +81,11 @@ func receivePackets(c *net.UDPConn) {
 			log.Infof("Number of flow packet records:%v", len(records))
 
 			for i, r := range records {
+				fmt.Printf("Flow record:%d", i)
 				for _, v := range r.Values {
-					log.Infof("Flow record: %d type: %v value: %v", i, v.GetType(), v.GetValue())
+					fmt.Printf(" %v:%v", v.GetType(), v.GetValue())
 				}
+				fmt.Printf("\n")
 			}
 		}
 	}
