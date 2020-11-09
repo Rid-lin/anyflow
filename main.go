@@ -9,8 +9,9 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 
-	"github.com/jesk78/anyflow/proto/netflow"
+	"github.com/Rid-lin/anyflow/proto/netflow"
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 type Packet struct {
@@ -21,7 +22,7 @@ type Packet struct {
 
 func CheckError(err error) {
 	if err != nil {
-		log.Fatalf("Error: ", err)
+		log.Fatalf("Error:%v", err)
 		os.Exit(0)
 	}
 }
@@ -44,17 +45,17 @@ func receivePackets(c *net.UDPConn) {
 	for {
 		n, addr, err := c.ReadFromUDP(buf)
 		if err != nil {
-			log.Errorf("Error: ", err)
+			log.Errorf("Error:%v", err)
 			continue
 		}
 
 		packetSourceIP := addr.IP.String()
 		packetsTotal.WithLabelValues(packetSourceIP).Inc()
-		log.Infof("Packet source: ", packetSourceIP)
+		log.Infof("Packet source:%v", packetSourceIP)
 
 		p, err := Parse(buf[:n], addr)
 		if err != nil {
-			log.Errorf("Error parsing packet: ", err)
+			log.Errorf("Error parsing packet:%v", err)
 			continue
 		}
 
@@ -62,7 +63,7 @@ func receivePackets(c *net.UDPConn) {
 		case "nf9":
 			nf, err := netflow.New(p.Raw, p.Saddr)
 			if err != nil {
-				log.Errorf("Error parsing netflow nf9 packet: ", err)
+				log.Errorf("Error parsing netflow nf9 packet:%v", err)
 				continue
 			}
 
@@ -73,11 +74,11 @@ func receivePackets(c *net.UDPConn) {
 
 			records, err := nf.GetFlows()
 			if err != nil {
-				log.Errorf("Error getting flows from packet: ", err)
+				log.Errorf("Error getting flows from packet:%v", err)
 				continue
 			}
 
-			log.Infof("Number of flow packet records: ", len(records))
+			log.Infof("Number of flow packet records:%v", len(records))
 
 			for i, r := range records {
 				for _, v := range r.Values {
@@ -111,15 +112,17 @@ func main() {
 
 	go receivePackets(ServerConn)
 
-	http.Handle("/metrics", prometheus.Handler())
+	http.Handle("/metrics", promhttp.Handler())
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte(`<html>
+		if _, err := w.Write([]byte(`<html>
             <head><title>Anyflow Metrics Server</title></head>
             <body>
             <h1>Anyflow Metrics Server</h1>
             <p><a href="/metrics">Metrics</a></p>
             </body>
-            </html>`))
+            </html>`)); err != nil {
+			log.Errorf("Error parsing template HTML:%v", err)
+		}
 	})
 
 	log.Infof("HTTP listening on %s", httpListenAddress)

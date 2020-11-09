@@ -16,9 +16,10 @@ func (nf *Netflow) GetFlows() ([]Record, error) {
 
 	for _, fs := range nf.FlowSet {
 		if len(fs.Data) > 0 {
-			for _, d := range fs.Data {
-				r = append(r, d)
-			}
+			// for _, d := range fs.Data {
+			// 	r = append(r, d)
+			// }
+			r = append(r, fs.Data...)
 		}
 	}
 	if len(r) == 0 {
@@ -72,7 +73,8 @@ func BytesToIpv6(ip []byte) string {
 	return "SOME IPV6"
 }
 func BytesToMac(b []byte) string {
-	return "SOME MAC"
+	return net.HardwareAddr(b).String()
+	// return "SOME MAC"
 }
 
 func (v Value) GetType() string {
@@ -99,7 +101,7 @@ func (v Value) GetValue() string {
 	} else {
 		return "type of value unknown, can't decode"
 	}
-	return "<nil>"
+	// return "<nil>"
 }
 
 func (v Value) GetLength() string {
